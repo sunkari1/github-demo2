@@ -1,0 +1,61 @@
+package project1;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WindowType;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+
+public class amazon2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+			// TODO Auto-generated method stub
+			System.setProperty("webdriver.chrome.driver", "C:\\Users\\sunka\\Downloads\\chromedriver_win32\\chromedriver.exe");
+			WebDriver driver=new ChromeDriver();
+			driver.manage().window().maximize();
+			
+			driver.get("https://www.amazon.in/");
+			
+			driver.findElement(By.xpath("//*[@id=\"twotabsearchtextbox\"]")).sendKeys("Refrigerator");
+			driver.findElement(By.xpath("//*[@id=\"nav-search-submit-button\"]")).click();
+			
+			List<WebElement> divs=driver.findElements(By.cssSelector("div[data-component-type='s-search-result']"));
+			for(int i=0;i<divs.size();i++)
+			{
+				if(divs.get(i).getText().contains("Samsung 198 L 4")) {
+					System.out.println("product details");
+					System.out.println(divs.get(i).getText());
+				}
+			}
+			String path=driver.findElement(By.partialLinkText("Samsung 198 L 4")).getAttribute("href");
+		 driver.switchTo().newWindow(WindowType.WINDOW);
+			driver.manage().window().maximize();
+			driver.get(path);
+			Set<String> id=driver.getWindowHandles();
+	Iterator<String> s=id.iterator();
+			
+
+	        String parent=s.next();
+			String child=s.next();
+			driver.switchTo().window(child);
+			String price=driver.findElement(By.id("priceblock_ourprice")).getText();
+			System.out.println();
+			System.out.println("page price:"+price);
+			System.out.println("Capacity:"+driver.findElement(By.xpath("//*[@id=\"productDetails_techSpec_section_1\"]/tbody/tr[4]/th")).getText());
+			System.out.println(driver.findElement(By.xpath("//*[@id=\"HLCXComparisonTable\"]/tbody/tr[20]")).getText());
+		}
+	
+
+		
+
+	}
+
+
